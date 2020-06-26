@@ -1,6 +1,6 @@
 {
   "name": "@slynova/symfony-encore",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Wrapper of Symfony Encore for AdonisJS",
   "keywords": [
     "adonis",
