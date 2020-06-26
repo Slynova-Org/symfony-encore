@@ -71,19 +71,6 @@
     "instructions": "./build/instructions.js",
     "providers": [
       "@slynova/symfony-encore"
-    ],
-    "templates": {
-      "basePath": "./build/templates",
-      "resources": [
-        {
-          "src": "app.css",
-          "dest": "css/app.css"
-        },
-        {
-          "src": "app.js",
-          "dest": "js/app.js"
-        }
-      ]
-    }
+    ]
   }
 }
