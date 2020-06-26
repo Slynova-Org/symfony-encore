@@ -18,7 +18,7 @@ Then, you need to scaffold the package using the `node ace invoke` command.
 $ node ace invoke @slynova/symfony-encore
 ```
 
-Doing so will install `@symfony/webpack-encore` directly in your application and create a boilerplate configuration.
+Doing so will install `@symfony/webpack-encore` directly in your application, create a boilerplate configuration and setup few scripts in your `package.json` to build your assets.
 
 ## How to Use
 
