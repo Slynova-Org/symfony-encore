@@ -25,7 +25,7 @@
     "clean": "del build",
     "commit": "git-cz",
     "compile": "npm run lint && npm run clean && tsc",
-    "copyfiles": "copyfiles \"templates/**/*.js\" build",
+    "copyfiles": "copyfiles \"templates/**/*\" build",
     "lint": "eslint . --ext=.ts",
     "prepublishOnly": "npm run build",
     "release": "np"
@@ -71,6 +71,19 @@
     "instructions": "./build/instructions.js",
     "providers": [
       "@slynova/symfony-encore"
-    ]
+    ],
+    "templates": {
+      "basePath": "./build/templates",
+      "resources": [
+        {
+          "src": "app.css",
+          "dest": "css/app.css"
+        },
+        {
+          "src": "app.js",
+          "dest": "js/app.js"
+        }
+      ]
+    }
   }
 }
