@@ -9,7 +9,7 @@
     "build/instructions.js"
   ],
   "scripts": {
-    "build": "npm run compile",
+    "build": "npm run compile && npm run copyfiles",
     "clean": "del build",
     "commit": "git-cz",
     "compile": "npm run lint && npm run clean && tsc",
