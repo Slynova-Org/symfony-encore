@@ -12,6 +12,8 @@ export default async function instructions (
 ) {
   const pkg = new sink.files.PackageJsonFile(projectRoot)
   pkg.install('@symfony/webpack-encore', undefined, true)
+  pkg.install('webpack-notifier', undefined, true)
+
   pkg.appendScript('build:front', 'npx encore dev --watch')
   pkg.appendScript('build:front:prod', 'NODE_ENV=production npx encore production')
 
@@ -20,7 +22,10 @@ export default async function instructions (
   template.apply().commit()
   sink.logger.create('webpack.config.js')
 
-  sink.logger.info('Installing @symfony/webpack-encore')
+  sink.logger.info('Installing "@symfony/webpack-encore" and "webpack-notifier"...')
   await pkg.commitAsync()
   sink.logger.success('Packages installed!')
+
+  console.log(`   ${sink.colors.gray('$')} Run ${sink.colors.cyan(`npm run build:front`)} to start the build`)
+  console.log(`   ${sink.colors.gray('$')} Run ${sink.colors.cyan(`npm run build:front:prod`)} to build for production`)
 }
