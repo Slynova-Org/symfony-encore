@@ -12,8 +12,10 @@ export default async function instructions (
 ) {
   const pkg = new sink.files.PackageJsonFile(projectRoot)
   pkg.install('@symfony/webpack-encore', undefined, true)
-  const configPath = join(__dirname, 'templates', 'webpack.config.js')
+  pkg.appendScript('build:front', 'npx encore dev --watch')
+  pkg.appendScript('build:front:prod', 'NODE_ENV=production npx encore production')
 
+  const configPath = join(__dirname, 'templates', 'webpack.config.js')
   const template = new sink.files.TemplateLiteralFile(projectRoot, 'webpack.config.js', configPath)
   template.apply().commit()
   sink.logger.create('webpack.config.js')
