@@ -9,13 +9,34 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
   .setOutputPath('public/build/')
   .setPublicPath('/build')
-  .addEntry('js/app', './resources/js/app.js')
-  .addStyleEntry('css/app', './resources/css/app.css')
+  .addEntry('js/app', './resources/{{jsFile}}/app.{{jsFile}}')
+  .addStyleEntry('css/app', './resources/{{cssFile}}/app.{{cssFile}}')
   .splitEntryChunks()
   .enableSingleRuntimeChunk()
   .cleanupOutputBeforeBuild()
   .enableBuildNotifications()
   .enableSourceMaps(!Encore.isProduction())
   .enableVersioning(Encore.isProduction())
+  {{#react}}
+  .enableReactPreset()
+  {{/react}}
+  {{#vue}}
+  .enableVueLoader()
+  {{/vue}}
+  {{#sass}}
+  .enableSassLoader()
+  {{/sass}}
+  {{#less}}
+  .enableLessLoader()
+  {{/less}}
+  {{#stylus}}
+  .enableStylusLoader()
+  {{/stylus}}
+  {{#postcss}}
+  .enablePostCssLoader()
+  {{/postcss}}
+  {{#typescript}}
+  .enableTypeScriptLoader()
+  {{/typescript}}
 
 module.exports = Encore.getWebpackConfig()
