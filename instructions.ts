@@ -7,20 +7,37 @@ import { ApplicationContract } from '@ioc:Adonis/Core/Application'
  */
 export default async function instructions (
   projectRoot: string,
-  _app: ApplicationContract,
+  _: ApplicationContract,
   sink: typeof sinkStatic,
 ) {
   const pkg = new sink.files.PackageJsonFile(projectRoot)
-  pkg.install('@symfony/webpack-encore', undefined, true)
+
+  /**
+   * Scripts to run encore
+   */
   pkg.appendScript('build:front', 'npx encore dev --watch')
   pkg.appendScript('build:front:prod', 'NODE_ENV=production npx encore production')
 
-  const configPath = join(__dirname, 'templates', 'webpack.config.js')
-  const template = new sink.files.TemplateLiteralFile(projectRoot, 'webpack.config.js', configPath)
-  template.apply().commit()
-  sink.logger.create('webpack.config.js')
+  /**
+   * Copy webpack config file
+   */
+  sink.utils.copyFiles(join(__dirname, 'templates'), projectRoot, ['webpack.config.js'])
 
-  sink.logger.info('Installing @symfony/webpack-encore')
+  /**
+   * Install required dependencies
+   */
+  sink.logger.info('Installing "@symfony/webpack-encore" and "webpack-notifier"...')
+
+  pkg.install('@symfony/webpack-encore', undefined, true)
+  pkg.install('webpack-notifier', undefined, true)
   await pkg.commitAsync()
+
   sink.logger.success('Packages installed!')
+
+  /**
+   * Usage instructions
+   */
+  console.log(' ')
+  console.log(`   ${sink.colors.gray('$')} Run ${sink.colors.cyan('npm run build:front')} to start the build`)
+  console.log(`   ${sink.colors.gray('$')} Run ${sink.colors.cyan('npm run build:front:prod')} to build for production`)
 }
