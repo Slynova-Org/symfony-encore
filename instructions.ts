@@ -10,7 +10,6 @@ export default async function instructions (
   _app: ApplicationContract,
   sink: typeof sinkStatic,
 ) {
-  console.log(projectRoot)
   const pkg = new sink.files.PackageJsonFile(projectRoot)
   pkg.install('@symfony/webpack-encore', undefined, true)
   const configPath = join(__dirname, 'templates', 'webpack.config.js')
