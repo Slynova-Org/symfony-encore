@@ -13,7 +13,7 @@
     "clean": "del build",
     "commit": "git-cz",
     "compile": "npm run lint && npm run clean && tsc",
-    "copyfiles": "copyfiles \"templates/**/*.txt\" build",
+    "copyfiles": "copyfiles \"templates/**/*.js\" build",
     "lint": "eslint . --ext=.ts",
     "prepublishOnly": "npm run build",
     "release": "np"
