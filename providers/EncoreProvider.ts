@@ -23,7 +23,7 @@ export default class EncoreProvider {
             html += ` integrity="${integrity[file]}"`
           }
 
-          html += `>`
+          html += '>'
 
           return html
         }).join('')
@@ -40,10 +40,10 @@ export default class EncoreProvider {
           }
 
           if (defer) {
-            html += ` defer`
+            html += ' defer'
           }
 
-          html += `></script>`
+          html += '></script>'
 
           return html
         }).join('')
