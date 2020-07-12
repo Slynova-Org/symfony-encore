@@ -28,7 +28,7 @@ const JS_PROMPT_CHOICES = [
  */
 const CSS_PROMPT_CHOICES = [
   {
-    name: 'sass' as const,
+    name: 'scss' as const,
     message: 'Sass / Scss',
     hint: ' (Install the sass-loader)',
   },
@@ -38,12 +38,12 @@ const CSS_PROMPT_CHOICES = [
     hint: ' (Install the less-loader)',
   },
   {
-    name: 'stylus' as const,
+    name: 'styl' as const,
     message: 'Stylus',
     hint: ' (Install the stylus-loader)',
   },
   {
-    name: 'none' as const,
+    name: 'css' as const,
     message: 'None',
     hint: '',
   },
@@ -97,7 +97,7 @@ export default async function instructions (
   }
 
   switch (cssLang) {
-    case 'sass': {
+    case 'scss': {
       pkg.install('sass-loader', undefined, true)
       pkg.install('sass', undefined, true)
       break
@@ -106,7 +106,7 @@ export default async function instructions (
       pkg.install('less-loader', undefined, true)
       break
     }
-    case 'stylus': {
+    case 'styl': {
       pkg.install('stylus-loader', undefined, true)
       break
     }
@@ -147,9 +147,9 @@ export default async function instructions (
     postCss,
     jsFile: typescript ? 'ts' : 'js',
     cssFile: cssLang,
-    sass: cssLang === 'sass',
+    sass: cssLang === 'scss',
     less: cssLang === 'less',
-    stylus: cssLang === 'stylus',
+    stylus: cssLang === 'styl',
     react: frontendFramework === 'react',
     vue: frontendFramework === 'vue',
   }).commit()
