@@ -10,4 +10,5 @@ coverage
 build
 dist
 yarn.lock
+package-lock.json
 shrinkwrap.yaml
