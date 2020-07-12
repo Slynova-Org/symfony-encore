@@ -11,18 +11,42 @@ export default class EncoreProvider {
 
     this.$container.with(['Adonis/Core/Application', 'Adonis/Core/View'], (Application: ApplicationContract, View) => {
       const entrypointsFilePath = Application.publicPath('/build/entrypoints.json')
-      const { entrypoints } = require(entrypointsFilePath)
+      const { entrypoints, integrity } = require(entrypointsFilePath)
 
       View.global('encoreLink', (entry: string) => {
         const files = entrypoints[entry]['css']
 
-        return files.map((file: string) => `<link rel="stylesheet" href="${file}">`).join('')
+        return files.map((file: string) => {
+          let html = `<link rel="stylesheet" href="${file}"`
+
+          if (integrity && integrity[file]) {
+            html += ` integrity="${integrity[file]}"`
+          }
+
+          html += `>`
+
+          return html
+        }).join('')
       })
 
-      View.global('encoreScript', (entry: string) => {
+      View.global('encoreScript', (entry: string, defer = true) => {
         const files = entrypoints[entry]['js']
 
-        return files.map((file: string) => `<script src="${file}" defer></script>`).join('')
+        return files.map((file: string) => {
+          let html = `<script src="${file}"`
+
+          if (integrity && integrity[file]) {
+            html += ` integrity="${integrity[file]}"`
+          }
+
+          if (defer) {
+            html += ` defer`
+          }
+
+          html += `></script>`
+
+          return html
+        }).join('')
       })
     })
   }

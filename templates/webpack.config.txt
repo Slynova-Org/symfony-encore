@@ -17,6 +17,7 @@ Encore
   .enableBuildNotifications()
   .enableSourceMaps(!Encore.isProduction())
   .enableVersioning(Encore.isProduction())
+  .enableIntegrityHashes(Encore.isProduction())
   {{#react}}
   .enableReactPreset()
   {{/react}}
