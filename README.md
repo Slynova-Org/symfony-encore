@@ -41,9 +41,3 @@ After tweaking the configuration [according to the documentation](https://symfon
 ```
 
 The parameter given to those helpers is the entry path you gave in your configuration.
-
-## Roadmap
-
-- Improve the scaffolding process to ask questions about preference (SCSS, TypeScript, PostCSS, etc.) and create a custom config
-- Add support for integrity
-- Add support to desactivate defered script
