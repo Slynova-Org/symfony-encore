@@ -10,50 +10,51 @@ export default class EncoreProvider {
       throw new Error('You need to install the @adonisjs/view package to use this package.')
     }
 
-    this.$container.with(['Adonis/Core/Application', 'Adonis/Core/View'], async (Application: ApplicationContract, View) => {
-      try {
-        const entrypointsFilePath = Application.publicPath('/build/entrypoints.json')
-        const file = await readFile(entrypointsFilePath)
-        const { entrypoints, integrity } = JSON.parse(file.toString())
+    this.$container.with(['Adonis/Core/Application', 'Adonis/Core/View'],
+      async (Application: ApplicationContract, View) => {
+        try {
+          const entrypointsFilePath = Application.publicPath('/build/entrypoints.json')
+          const entrypointsFile = await readFile(entrypointsFilePath)
+          const { entrypoints, integrity } = JSON.parse(entrypointsFile.toString())
 
-        View.global('encoreLink', (entry: string) => {
-          const files = entrypoints[entry]['css']
+          View.global('encoreLink', (entry: string) => {
+            const files = entrypoints[entry]['css']
 
-          return files.map((file: string) => {
-            let html = `<link rel="stylesheet" href="${file}"`
+            return files.map((file: string) => {
+              let html = `<link rel="stylesheet" href="${file}"`
 
-            if (integrity && integrity[file]) {
-              html += ` integrity="${integrity[file]}"`
-            }
+              if (integrity && integrity[file]) {
+                html += ` integrity="${integrity[file]}"`
+              }
 
-            html += '>'
+              html += '>'
 
-            return html
-          }).join('')
-        })
+              return html
+            }).join('')
+          })
 
-        View.global('encoreScript', (entry: string, defer = true) => {
-          const files = entrypoints[entry]['js']
+          View.global('encoreScript', (entry: string, defer = true) => {
+            const files = entrypoints[entry]['js']
 
-          return files.map((file: string) => {
-            let html = `<script src="${file}"`
+            return files.map((file: string) => {
+              let html = `<script src="${file}"`
 
-            if (integrity && integrity[file]) {
-              html += ` integrity="${integrity[file]}"`
-            }
+              if (integrity && integrity[file]) {
+                html += ` integrity="${integrity[file]}"`
+              }
 
-            if (defer) {
-              html += ' defer'
-            }
+              if (defer) {
+                html += ' defer'
+              }
 
-            html += '></script>'
+              html += '></script>'
 
-            return html
-          }).join('')
-        })
-      } catch (e) {
-        //
-      }
-    })
+              return html
+            }).join('')
+          })
+        } catch (e) {
+          //
+        }
+      })
   }
 }
