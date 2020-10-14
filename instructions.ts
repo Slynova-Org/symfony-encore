@@ -153,21 +153,21 @@ export default async function instructions (
     react: frontendFramework === 'react',
     vue: frontendFramework === 'vue',
   }).commit()
-  sink.logger.create(configPath)
+  sink.logger.action('create').succeeded(configPath)
 
   const cssFilePath = app.resourcesPath(`${cssLang}/app.${cssLang}`)
   const cssFile = new sink.files.MustacheFile(projectRoot, cssFilePath, getStub('app.txt'))
   cssFile.apply({
     lang: cssLang,
   }).commit()
-  sink.logger.create(cssFilePath)
+  sink.logger.action('create').succeeded(cssFilePath)
 
   const jsFilePath = app.resourcesPath(`${typescript ? 'ts' : 'js'}/app.${typescript ? 'ts' : 'js'}`)
   const jsFile = new sink.files.MustacheFile(projectRoot, jsFilePath, getStub('app.txt'))
   jsFile.apply({
     lang: typescript ? 'TypeScript' : 'JavaScript',
   }).commit()
-  sink.logger.create(jsFilePath)
+  sink.logger.action('create').succeeded(jsFilePath)
 
   pkg.install('@symfony/webpack-encore', undefined, true)
   pkg.install('webpack-notifier', undefined, true)
@@ -175,16 +175,20 @@ export default async function instructions (
   /**
    * Install required dependencies
    */
-  sink.logger.info(`Installing packages: ${pkg.getInstalls().list.join(', ')}...`)
-
+  const spinner = sink.logger.await(`Installing packages: ${pkg.getInstalls().list.join(', ')}...`)
   await pkg.commitAsync()
+  spinner.stop()
 
   sink.logger.success('Packages installed!')
+  console.log(' ')
 
   /**
    * Usage instructions
    */
-  console.log(' ')
-  console.log(`   ${sink.colors.gray('$')} Run ${sink.colors.cyan('npm run build:front')} to start the build`)
-  console.log(`   ${sink.colors.gray('$')} Run ${sink.colors.cyan('npm run build:front:prod')} to build for production`)
+  sink
+    .instructions()
+    .heading('Run following commands to get started')
+    .add(`${sink.logger.colors.cyan('npm run build:front')} to start the build`)
+    .add(`${sink.logger.colors.cyan('npm run build:front:prod')} to build for production`)
+    .render()
 }
