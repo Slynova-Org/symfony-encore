@@ -1,19 +1,19 @@
 import { readFile } from 'fs/promises'
-import { IocContract } from '@adonisjs/fold'
 import { ApplicationContract } from '@ioc:Adonis/Core/Application'
 
 export default class EncoreProvider {
-  constructor (protected $container: IocContract) {}
+  constructor (protected application: ApplicationContract) {}
+  public static needsApplication = true
 
   public async boot () {
-    if (!this.$container.hasBinding('Adonis/Core/View')) {
-      throw new Error('You need to install the @adonisjs/view package to use this package.')
+    if (!this.application.container.hasBinding('Adonis/Core/View')) {
+      throw new Error('You need to install the @adonisjs/view package to use this package')
     }
 
-    this.$container.with(['Adonis/Core/Application', 'Adonis/Core/View'],
-      async (Application: ApplicationContract, View) => {
+    this.application.container.with(['Adonis/Core/View'],
+      async (View) => {
         try {
-          const entrypointsFilePath = Application.publicPath('/build/entrypoints.json')
+          const entrypointsFilePath = this.application.publicPath('/build/entrypoints.json')
           const entrypointsFile = await readFile(entrypointsFilePath)
           const { entrypoints, integrity } = JSON.parse(entrypointsFile.toString())
 
